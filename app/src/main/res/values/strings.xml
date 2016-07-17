@@ -1,4 +1,5 @@
 <resources>
-    <string name="app_name">AbercrombieFitchKata</string>
+    <string name="app_name">A &amp; F Promotions</string>
     <string name="title_promotion_detail">Promotion Detail</string>
+    <string name="promotional_image">Promotional Image</string>
 </resources>
