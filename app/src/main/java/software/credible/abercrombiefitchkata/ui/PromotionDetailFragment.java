@@ -2,12 +2,13 @@ package software.credible.abercrombiefitchkata.ui;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v4.app.Fragment;
 import android.text.Html;
+import android.text.method.LinkMovementMethod;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -55,15 +56,21 @@ public class PromotionDetailFragment extends Fragment {
                 appBarLayout.setTitle(promotion.getTitle());
             }
 
-            getViewOfType(R.id.promotion_detail, TextView.class).setText(promotion.getDescription());
+            ((TextView)getView().findViewById((R.id.promotion_detail))).setText(promotion.getDescription());
+
+
             if(promotion.getFooter() != null) {
-                getViewOfType(R.id.promotion_footer, TextView.class).setText(Html.fromHtml(promotion.getFooter()));
+                int footerResId = (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) ? R.id.promotion_footer_landscape : R.id.promotion_footer;
+                TextView footer = (TextView)getActivity().findViewById(footerResId);
+                footer.setVisibility(View.VISIBLE);
+                footer.setText(Html.fromHtml(promotion.getFooter()));
+                footer.setMovementMethod(LinkMovementMethod.getInstance());
             }
 
-            ImageView promoDetailImage = getViewOfType(R.id.promotion_detail_image, ImageView.class);
+            ImageView promoDetailImage = (ImageView) getView().findViewById(R.id.promotion_detail_image);
             Picasso.with(getActivity()).load(promotion.getImageUrl()).into(promoDetailImage);
 
-            android.widget.Button buttonView = getViewOfType(R.id.promotion_button, android.widget.Button.class);
+            android.widget.Button buttonView = (android.widget.Button)getView().findViewById(R.id.promotion_button);
             final Button buttonData = promotion.getButtons().get(0);
             buttonView.setText(buttonData.getTitle());
 
@@ -77,10 +84,6 @@ public class PromotionDetailFragment extends Fragment {
             });
         }
 
-    }
-
-    private <T> T getViewOfType(int resId, Class<T> ofType) {
-        return ((T) getView().findViewById(resId));
     }
 
     @Override

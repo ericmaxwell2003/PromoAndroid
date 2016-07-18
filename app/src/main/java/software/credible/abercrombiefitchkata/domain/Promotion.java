@@ -1,8 +1,5 @@
 package software.credible.abercrombiefitchkata.domain;
 
-import com.google.gson.annotations.SerializedName;
-
-import java.util.List;
 import java.util.UUID;
 
 import io.realm.RealmList;

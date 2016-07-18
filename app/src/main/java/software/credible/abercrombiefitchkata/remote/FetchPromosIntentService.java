@@ -2,10 +2,8 @@ package software.credible.abercrombiefitchkata.remote;
 
 import android.app.IntentService;
 import android.content.Intent;
-import android.content.Context;
 import android.util.Log;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import io.realm.Realm;

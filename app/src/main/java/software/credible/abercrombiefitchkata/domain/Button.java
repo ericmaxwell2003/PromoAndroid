@@ -4,7 +4,6 @@ import java.util.UUID;
 
 import io.realm.RealmObject;
 import software.credible.abercrombiefitchkata.dto.ButtonDto;
-import software.credible.abercrombiefitchkata.dto.PromotionDto;
 
 public class Button extends RealmObject {
 
