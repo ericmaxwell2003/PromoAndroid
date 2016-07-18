@@ -78,8 +78,10 @@ public class Promotion extends RealmObject {
         promotion.setFooter(dto.getFooter());
         promotion.setTitle(dto.getTitle());
         promotion.setImageUrl(dto.getImageUrl());
-        for(ButtonDto buttonDto : dto.getButtons()) {
-            promotion.addButton(Button.fromDto(buttonDto));
+        if(dto.getButtons() != null) {
+            for(ButtonDto buttonDto : dto.getButtons()) {
+                promotion.addButton(Button.fromDto(buttonDto));
+            }
         }
         return promotion;
     }

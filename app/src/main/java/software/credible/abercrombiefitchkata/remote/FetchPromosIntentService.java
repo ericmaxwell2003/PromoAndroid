@@ -18,8 +18,22 @@ public class FetchPromosIntentService extends IntentService {
 
     public static final String TAG = FetchPromosIntentService.class.getName();
 
+    private PromotionsApi promotionsApi;
+
     public FetchPromosIntentService() {
         super(FetchPromosIntentService.class.getName());
+    }
+
+    public void setPromotionsApi(PromotionsApi promotionsApi) {
+        this.promotionsApi = promotionsApi;
+    }
+
+    @Override
+    public void onCreate() {
+        super.onCreate();
+        if(promotionsApi == null) {
+            promotionsApi = PromotionsApiFactory.createService();
+        }
     }
 
     @Override
@@ -43,9 +57,9 @@ public class FetchPromosIntentService extends IntentService {
     }
 
     private List<PromotionDto> fetchPromotions() {
-        PromotionsApi promotionsApi = PromotionsApiFactory.createService();
         PromotionsResponseDto promotionsResponseDto = promotionsApi.getPromotions();
         return promotionsResponseDto.getPromotions();
     }
+
 
 }
