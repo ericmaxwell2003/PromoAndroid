@@ -9,6 +9,8 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 
 import io.realm.Realm;
+import io.realm.RealmChangeListener;
+import io.realm.RealmResults;
 import software.credible.abercrombiefitchkata.R;
 import software.credible.abercrombiefitchkata.domain.Promotion;
 import software.credible.abercrombiefitchkata.remote.FetchPromosIntentService;
@@ -30,6 +32,8 @@ public class PromotionListActivity extends AppCompatActivity {
     private boolean mTwoPane;
     private Realm realm;
     private RecyclerView recyclerView;
+    private RealmResults<Promotion> promotionsList;
+    private View emptyView;
 
     public boolean isTwoPane() {
         return mTwoPane;
@@ -40,7 +44,23 @@ public class PromotionListActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_promotion_list);
 
+        recyclerView = (RecyclerView) findViewById(R.id.promotion_list);
+        emptyView = findViewById(R.id.empty_view);
+
         realm = Realm.getDefaultInstance();
+        promotionsList = realm.where(Promotion.class).findAllAsync();
+        promotionsList.addChangeListener(new RealmChangeListener<RealmResults<Promotion>>() {
+            @Override
+            public void onChange(RealmResults<Promotion> updatedPromotions) {
+                if(updatedPromotions.isEmpty()) {
+                    recyclerView.setVisibility(View.GONE);
+                    emptyView.setVisibility(View.VISIBLE);
+                } else {
+                    recyclerView.setVisibility(View.VISIBLE);
+                    emptyView.setVisibility(View.GONE);
+                }
+            }
+        });
 
         setupToolbar();
 
@@ -73,12 +93,12 @@ public class PromotionListActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        realm.removeAllChangeListeners();
         realm.close();
     }
 
     private void setupRecyclerView() {
-        recyclerView = (RecyclerView) findViewById(R.id.promotion_list);
-        recyclerView.setAdapter(new PromotionRecyclerViewAdapter(this, realm.where(Promotion.class).findAllAsync()));
+        recyclerView.setAdapter(new PromotionRecyclerViewAdapter(this, promotionsList));
         recyclerView.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL_LIST));
     }
 

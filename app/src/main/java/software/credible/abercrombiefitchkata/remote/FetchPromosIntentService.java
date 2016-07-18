@@ -37,6 +37,8 @@ public class FetchPromosIntentService extends IntentService {
                     }
                 }
             });
+        } catch (Exception e) {
+            Log.e(TAG, "Error fetching promos...", e);
         }
     }
 

@@ -11,7 +11,7 @@
         android:layout_width="120dp"
         android:layout_height="68dp"
         android:contentDescription="@string/promotional_image"
-        android:src="@drawable/fillerimage"
+        android:src="@mipmap/fillerimage"
         />
 
     <TextView

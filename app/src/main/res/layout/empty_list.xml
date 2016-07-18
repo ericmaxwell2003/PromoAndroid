@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:id="@+id/empty_view"
+              android:visibility="gone"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent">
+
+        <ImageView
+            android:layout_gravity="top"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/fab_margin"
+            android:contentDescription="@string/no_data_messenger"
+            android:src="@mipmap/nodataimg"
+            />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center_horizontal"
+            android:layout_margin="@dimen/text_margin"
+            android:textAppearance="?textAppearanceSearchResultTitle"
+            android:text="@string/sorry_no_promotions_right_now_just_me" />
+
+</LinearLayout>
