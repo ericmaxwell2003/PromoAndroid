@@ -42,17 +42,18 @@ public class PromotionListActivityTest {
     @Test
     public void attractiveNoDataScreenPresence() {
         clearData();
+        waitForSeconds(1);
         assertTheNoPromosViewIsShown();
     }
 
     @Test
     public void promotionListActivityContentsTest() {
         clearData();
+        waitForSeconds(1);
         loadTestData();
+        waitForSeconds(1);
         assertThePromoListViewIsShown();
-
         assertRefreshButtonShown();
-
         assertEntryWithTitleShown("Shorts Starting at $25");
         assertEntryWithTitleShown("Dolce Vita");
     }
@@ -60,21 +61,37 @@ public class PromotionListActivityTest {
     @Test
     public void promotionListActivityFirstEntryDetailTest() {
         clearData();
+        waitForSeconds(1);
         loadTestData();
+        waitForSeconds(1);
         goToDetailForItem(0);
+        waitForSeconds(1);
         assertDetailScreenContents("GET READY FOR SUMMER DAYS", "Shop Now", "In stores & online. Exclusions apply. See details");
         goBackToListView();
+        waitForSeconds(1);
         assertThePromoListViewIsShown();
     }
 
     @Test
     public void promotionListActivitySecondEntryDetailTest() {
         clearData();
+        waitForSeconds(1);
         loadTestData();
+        waitForSeconds(1);
         goToDetailForItem(1);
+        waitForSeconds(1);
         assertDetailScreenContents("Our Favorite Brands", "Shop Now", null);
         goBackToListView();
+        waitForSeconds(1);
         assertThePromoListViewIsShown();
+    }
+
+    private void waitForSeconds(int sec) {
+        try {
+            Thread.sleep(sec * 1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 
     private void assertDetailScreenContents(String description, String buttonText, String footerText) {
