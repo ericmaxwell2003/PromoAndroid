@@ -1,10 +1,12 @@
 package software.credible.abercrombiefitchkata.remote;
 
-import android.app.Application;
 import android.content.Intent;
+import android.support.test.runner.AndroidJUnit4;
 import android.test.ApplicationTestCase;
 
 import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
 import java.util.ArrayList;
 
@@ -37,6 +39,7 @@ public class FetchPromosIntentServiceTest extends ApplicationTestCase<AnfPromoAp
         intentService.setPromotionsApi(fakePromotionsApi);
     }
 
+    @Test
     public void testAnExceptionIsThrownDuringFetchThenNoChangesHappenToData() {
         setupDatabaseWithNumberOfPromotions(0);
         fakePromotionsApi.onGetPromotionsReturn(promotionReponseWithPromoCount(2));
@@ -46,6 +49,7 @@ public class FetchPromosIntentServiceTest extends ApplicationTestCase<AnfPromoAp
         assertPromotionCountInDatabase(2);
     }
 
+    @Test
     public void testTheFetchReturnsEmptyDataThenTheResultIsAnEmptyDatabase() {
         setupDatabaseWithNumberOfPromotions(3);
         fakePromotionsApi.onGetPromotionsReturn(promotionReponseWithPromoCount(0));

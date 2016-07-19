@@ -15,11 +15,12 @@
             android:src="@mipmap/nodataimg"
             />
         <TextView
+            android:id="@+id/no_data_message"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:gravity="center_horizontal"
             android:layout_margin="@dimen/text_margin"
             android:textAppearance="?textAppearanceSearchResultTitle"
-            android:text="@string/sorry_no_promotions_right_now_just_me" />
+            android:text="@string/no_promotions" />
 
 </LinearLayout>

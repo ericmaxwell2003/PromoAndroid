@@ -24,20 +24,21 @@ public class PromotionsApiFactory {
 
     public static PromotionsApi createService(String url) {
 
+        RestAdapter adapter = new RestAdapter.Builder()
+                .setEndpoint(url)
+                .setLogLevel(RestAdapter.LogLevel.FULL)
+                .setClient(new OkClient(new OkHttpClient()))
+                .setConverter(new GsonConverter(gson()))
+                .build();
+        return adapter.create(PromotionsApi.class);
+    }
+
+    public static Gson gson() {
         // Button sometimes comes down in the payload as an array and sometimes as an object.
         // We're registering a type adapter here to account for that inconsistency by safely
         // converting it into a List of Buttons regardless of which way it comes.
         Type buttonListType = new TypeToken<List<ButtonDto>>() {}.getType();
         GsonBuilder gsonBuilder = new GsonBuilder().registerTypeAdapter(buttonListType, new ButtonTypeAdapter());
-        Gson gson = gsonBuilder.create();
-
-        RestAdapter adapter = new RestAdapter.Builder()
-                .setEndpoint(url)
-                .setLogLevel(RestAdapter.LogLevel.FULL)
-                .setClient(new OkClient(new OkHttpClient()))
-                .setConverter(new GsonConverter(gson))
-                .build();
-        return adapter.create(PromotionsApi.class);
+        return gsonBuilder.create();
     }
-
 }

@@ -1,6 +1,8 @@
 package software.credible.abercrombiefitchkata.domain;
 
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.JUnit4;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -14,6 +16,7 @@ import static org.junit.Assert.assertNotNull;
 /**
  * Unit tests for promotions.
  */
+@RunWith(JUnit4.class)
 public class PromotionUnitTest {
 
     @Test

@@ -1,6 +1,8 @@
 package software.credible.abercrombiefitchkata.domain;
 
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.JUnit4;
 
 import software.credible.abercrombiefitchkata.dto.ButtonDto;
 
@@ -10,6 +12,7 @@ import static org.junit.Assert.assertNotNull;
 /**
  * Unit level test for button.
  */
+@RunWith(JUnit4.class)
 public class ButtonUnitTest {
 
     @Test

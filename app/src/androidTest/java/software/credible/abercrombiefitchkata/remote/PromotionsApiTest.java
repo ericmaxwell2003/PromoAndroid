@@ -1,6 +1,5 @@
 package software.credible.abercrombiefitchkata.remote;
 
-import android.app.Application;
 import android.test.ApplicationTestCase;
 
 import com.squareup.okhttp.mockwebserver.MockResponse;
@@ -8,7 +7,6 @@ import com.squareup.okhttp.mockwebserver.MockWebServer;
 
 import org.junit.After;
 import org.junit.Before;
-import org.junit.Test;
 
 import java.io.IOException;
 
@@ -17,6 +15,7 @@ import software.credible.abercrombiefitchkata.AnfPromoApplication;
 import software.credible.abercrombiefitchkata.dto.ButtonDto;
 import software.credible.abercrombiefitchkata.dto.PromotionDto;
 import software.credible.abercrombiefitchkata.dto.PromotionsResponseDto;
+import static software.credible.abercrombiefitchkata.TestConstants.*;
 
 public class PromotionsApiTest extends ApplicationTestCase<AnfPromoApplication> {
 
@@ -45,8 +44,7 @@ public class PromotionsApiTest extends ApplicationTestCase<AnfPromoApplication> 
         super.tearDown();
     }
 
-    @Test
-    public void testAnfFullResponseParsesWithoutError() throws Exception {
+    public void testParsesAnfFullResponseParsesWithoutError() throws Exception {
 
         mockWebServer.enqueue(new MockResponse()
                 .setResponseCode(200)
@@ -56,7 +54,6 @@ public class PromotionsApiTest extends ApplicationTestCase<AnfPromoApplication> 
         assertEquals(2, promotionsResponse.getPromotions().size());
     }
 
-    @Test
     public void testPromotionContentsParse() throws Exception {
 
         mockWebServer.enqueue(new MockResponse()
@@ -91,7 +88,6 @@ public class PromotionsApiTest extends ApplicationTestCase<AnfPromoApplication> 
         assertEquals("footer", promotion.getFooter());
     }
 
-    @Test
     public void testPromotionButtonObjectParsesToButtonList() throws Exception {
 
         mockWebServer.enqueue(new MockResponse()
@@ -115,7 +111,6 @@ public class PromotionsApiTest extends ApplicationTestCase<AnfPromoApplication> 
         assertEquals("title", button.getTitle());
     }
 
-    @Test
     public void testPromotionButtonListParsesToButtonList() throws Exception {
 
         mockWebServer.enqueue(new MockResponse()
@@ -138,7 +133,6 @@ public class PromotionsApiTest extends ApplicationTestCase<AnfPromoApplication> 
         assertEquals("target", button.getTargetUrl());
         assertEquals("title", button.getTitle());
     }
-
 
     public void testNon200ReponseThrowsException() throws Exception {
 
@@ -164,31 +158,4 @@ public class PromotionsApiTest extends ApplicationTestCase<AnfPromoApplication> 
             fail(e.getMessage());
         }
     }
-
-    private static final String TEST_ANF_FULL_RESPONSE = "\n" +
-            "{\n" +
-            "  \"promotions\": [\n" +
-            "    {\n" +
-            "      \"button\": {\n" +
-            "        \"target\": \"https://m.abercrombie.com\", \n" +
-            "        \"title\": \"Shop Now\"\n" +
-            "      }, \n" +
-            "      \"description\": \"GET READY FOR SUMMER DAYS\", \n" +
-            "      \"footer\": \"In stores & online. Exclusions apply. <a href=\\\"https://www.abercrombie.com/anf/media/legalText/viewDetailsText20150618_Shorts25_US.html\\\" class=\\\"legal promo-details\\\">See details</a>\", \n" +
-            "      \"image\": \"http://anf.scene7.com/is/image/anf/anf-US-20150629-app-women-shorts\", \n" +
-            "      \"title\": \"Shorts Starting at $25\"\n" +
-            "    }, \n" +
-            "    {\n" +
-            "      \"button\": [\n" +
-            "        {\n" +
-            "          \"target\": \"https://m.hollisterco.com\", \n" +
-            "          \"title\": \"Shop Now\"\n" +
-            "        }\n" +
-            "      ], \n" +
-            "      \"description\": \"Our Favorite Brands\", \n" +
-            "      \"image\": \"http://anf.scene7.com/is/image/anf/anf-US-20150629-app-women-brands\", \n" +
-            "      \"title\": \"Dolce Vita\"\n" +
-            "    }\n" +
-            "  ]\n" +
-            "}";
 }

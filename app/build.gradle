@@ -12,6 +12,7 @@ android {
         targetSdkVersion 23
         versionCode 1
         versionName "1.0"
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
         debug {
@@ -21,6 +22,25 @@ android {
             buildConfigField "String", "ANF_BASE_URL", '"https://www.abercrombie.com/anf/nativeapp/Feeds"'
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    testOptions {
+        unitTests.returnDefaultValues = true
+        unitTests.all {
+            // Configure max heap size of the test JVM
+            maxHeapSize = '2048m'
+
+            // Specify max number of processes (default is 1)
+            maxParallelForks = 3
+
+            // Specify max number of test classes to execute in a test process
+            // before restarting the process (default is unlimited)
+            forkEvery = 250
+
+            testLogging {
+                events "passed", "skipped", "failed", "standardError" //, "standardOut"
+            }
         }
     }
 
@@ -43,9 +63,7 @@ dependencies {
 
     // Retrofit & OkHttp
     compile 'com.squareup.retrofit:retrofit:1.9.0'
-    compile ('com.squareup.okhttp:okhttp:2.4.0') {
-        exclude group: 'com.squareup.okio', module: 'okio';
-    }
+    compile ('com.squareup.okhttp:okhttp:2.4.0')
 
     // Realm Recycler View Adapter Support
     compile 'io.realm:android-adapters:1.3.0'
@@ -63,9 +81,16 @@ dependencies {
 
     // MockWebServer to simulate HTTP calls in unit tests
     androidTestCompile 'com.squareup.okhttp:mockwebserver:2.4.0'
+    compile 'com.android.support.test.espresso:espresso-contrib:2.2.2'
 }
 
 apply plugin: 'jacoco'
+
+
+task mergeCoverage(type: JacocoMerge) {
+    executionData = fileTree(dir: project.projectDir, includes: ['**/*.exec', '**/*.ec'])
+    destinationFile = file("$buildDir/jacoco/combinedTest.exec")
+}
 
 jacoco {
     toolVersion = "0.7.1.201405082137"
@@ -87,7 +112,7 @@ task jacocoTestReport(type: JacocoReport) {
                        '**/*$ViewInjector*.*',
                        '**/BuildConfig.*',
                        '**/Manifest*.*',
-                       '**/io/realm/*',
+                       '**/io/realm/*.*',
             ]
     )
 
