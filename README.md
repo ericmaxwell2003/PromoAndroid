@@ -1,6 +1,6 @@
 **Run Unit Tests and Build APK File**
 
-Create and startup an emulator for a Nexus 6P w/ API Level 23.  *(This must happen before running connectedAndroidTests).*
+Create and startup an emulator for a Nexus 6P w/ API Level 23.  **(This must happen before running connectedAndroidTests).**
 Please run the tests with the emulator in Portrait mode.  I have not written tests that account for landscape mode and therefore some views
 may be scrolled off screen otherwise and fail the test.  In a production app, I would spend a lot more time cross testing across various device sizes
 and orientations.
