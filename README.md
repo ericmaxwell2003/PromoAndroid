@@ -25,11 +25,9 @@ Once you have your emulator up and running, you should be able to run the follow
 
 **Screenshots**
 
-<img width="300" height="605" src="Promotion%20List.png" alt="Promotion List Example"/>
+<img width="300" height="605" src="Promotion%20List.png" alt="Promotion List Example"/> <img width="300" height="605" src="Promotion%20Detail.png" alt="Promotion Detail Example"/> <img width="300" height="605" src="Initial%20Offline.png" alt="Initial Offline Screen Example"/>
 
-<img width="300" height="605" src="Promotion%20Detail.png" alt="Promotion Detail Example"/>
-
-<img width="300" height="605" src="Initial%20Offline.png" alt="Initial Offline Screen Example"/>
+<img width="729" height="545" src="Initial%20Offline.png" alt="Initial Offline Screen Example"/>
 
 
 **Other Projects/Work I want to note are**
