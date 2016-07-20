@@ -62,9 +62,11 @@ public class PromotionDetailFragment extends Fragment {
             if(promotion.getFooter() != null) {
                 int footerResId = (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) ? R.id.promotion_footer_landscape : R.id.promotion_footer;
                 TextView footer = (TextView)getActivity().findViewById(footerResId);
-                footer.setVisibility(View.VISIBLE);
-                footer.setText(Html.fromHtml(promotion.getFooter()));
-                footer.setMovementMethod(LinkMovementMethod.getInstance());
+                if(footer != null) {
+                    footer.setVisibility(View.VISIBLE);
+                    footer.setText(Html.fromHtml(promotion.getFooter()));
+                    footer.setMovementMethod(LinkMovementMethod.getInstance());
+                }
             }
 
             ImageView promoDetailImage = (ImageView) getView().findViewById(R.id.promotion_detail_image);

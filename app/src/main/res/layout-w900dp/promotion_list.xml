@@ -27,7 +27,8 @@
                                             android:layout_marginRight="16dp"
                                             app:layoutManager="LinearLayoutManager"
                                             tools:context=".ui.PromotionListActivity"
-                                            tools:listitem="@layout/promotion_list_content"/>
+                                            tools:listitem="@layout/promotion_list_content"
+                                            android:layout_weight="0.61"/>
 
     <FrameLayout
         android:id="@+id/promotion_detail_container"
