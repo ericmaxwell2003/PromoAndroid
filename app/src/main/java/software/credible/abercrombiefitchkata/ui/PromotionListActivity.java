@@ -62,20 +62,6 @@ public class PromotionListActivity extends AppCompatActivity {
             }
         });
 
-        setupToolbar();
-
-        if (findViewById(R.id.promotion_detail_container) != null) {
-            // The detail container view will be present only in the
-            // large-screen layouts (res/values-w900dp).
-            // If this view is present, then the
-            // activity should be in two-pane mode.
-            mTwoPane = true;
-        }
-
-        setupRecyclerView();
-    }
-
-    private void setupToolbar() {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         toolbar.setTitle(getTitle());
@@ -88,7 +74,18 @@ public class PromotionListActivity extends AppCompatActivity {
                 startService(intent);
             }
         });
+
+        if (findViewById(R.id.promotion_detail_container) != null) {
+            // The detail container view will be present only in the
+            // large-screen layouts (res/values-w900dp).
+            // If this view is present, then the
+            // activity should be in two-pane mode.
+            mTwoPane = true;
+        }
+
+        setupRecyclerView();
     }
+
 
     @Override
     protected void onDestroy() {

@@ -39,17 +39,24 @@ public class FetchPromosIntentServiceTest extends ApplicationTestCase<AnfPromoAp
         intentService.setPromotionsApi(fakePromotionsApi);
     }
 
-    @Test
     public void testAnExceptionIsThrownDuringFetchThenNoChangesHappenToData() {
-        setupDatabaseWithNumberOfPromotions(0);
-        fakePromotionsApi.onGetPromotionsReturn(promotionReponseWithPromoCount(2));
+        setupDatabaseWithNumberOfPromotions(2);
+        fakePromotionsApi.onGetPromotionsThrowException(new RuntimeException("Pretending an error occurred"));
 
         intentService.onHandleIntent(new Intent());
 
         assertPromotionCountInDatabase(2);
     }
 
-    @Test
+    public void testWhenRemoteDataIsFoundTheyAreReplacedInTheDatabase() {
+        setupDatabaseWithNumberOfPromotions(2);
+        fakePromotionsApi.onGetPromotionsReturn(promotionReponseWithPromoCount(3));
+
+        intentService.onHandleIntent(new Intent());
+
+        assertPromotionCountInDatabase(3);
+    }
+
     public void testTheFetchReturnsEmptyDataThenTheResultIsAnEmptyDatabase() {
         setupDatabaseWithNumberOfPromotions(3);
         fakePromotionsApi.onGetPromotionsReturn(promotionReponseWithPromoCount(0));
@@ -117,15 +124,25 @@ public class FetchPromosIntentServiceTest extends ApplicationTestCase<AnfPromoAp
 
     private static class FakePromotionsApi implements PromotionsApi {
 
+        private RuntimeException exception;
         private PromotionsResponseDto promotionsResponseDto;
 
         public void onGetPromotionsReturn(PromotionsResponseDto promotionsResponseDto) {
             this.promotionsResponseDto = promotionsResponseDto;
         }
 
+        public void onGetPromotionsThrowException(RuntimeException exception) {
+            this.exception = exception;
+        }
+
+
         @Override
         public PromotionsResponseDto getPromotions() {
-            return promotionsResponseDto;
+            if(this.exception != null) {
+                throw exception;
+            } else {
+                return promotionsResponseDto;
+            }
         }
 
     }
