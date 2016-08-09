@@ -49,46 +49,14 @@ public class PromotionDetailFragment extends Fragment {
         realm = Realm.getDefaultInstance();
 
         if (getArguments().containsKey(ARG_ITEM_ID)) {
+
             promotion = realm.where(Promotion.class).equalTo("id", getArguments().getString(ARG_ITEM_ID)).findFirst();
 
-            Activity activity = this.getActivity();
-            CollapsingToolbarLayout appBarLayout = (CollapsingToolbarLayout) activity.findViewById(R.id.toolbar_layout);
-            Toolbar toolbar = (Toolbar) activity.findViewById(R.id.toolbar);
-            if (appBarLayout != null) {
-                appBarLayout.setTitle(promotion.getTitle());
-            } else if(toolbar != null) { // if in split pane mode, the tool bar will be prsent
-                                         // in the appBarLayouts absense.
-                toolbar.setTitle(promotion.getTitle());
-            }
-
-            ((TextView)getView().findViewById((R.id.promotion_detail))).setText(promotion.getDescription());
-
-
-            if(promotion.getFooter() != null) {
-                int footerResId = (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) ? R.id.promotion_footer_landscape : R.id.promotion_footer;
-                TextView footer = (TextView)getActivity().findViewById(footerResId);
-                if(footer != null) {
-                    footer.setVisibility(View.VISIBLE);
-                    footer.setText(Html.fromHtml(promotion.getFooter()));
-                    footer.setMovementMethod(LinkMovementMethod.getInstance());
-                }
-            }
-
-            ImageView promoDetailImage = (ImageView) getView().findViewById(R.id.promotion_detail_image);
-            Picasso.with(getActivity()).load(promotion.getImageUrl()).into(promoDetailImage);
-
-            android.widget.Button buttonView = (android.widget.Button)getView().findViewById(R.id.promotion_button);
-            final Button buttonData = promotion.getButtons().get(0);
-            buttonView.setText(buttonData.getTitle());
-
-            buttonView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent i = new Intent(Intent.ACTION_VIEW);
-                    i.setData(Uri.parse(buttonData.getTargetUrl()));
-                    startActivity(i);
-                }
-            });
+            setupTitle();
+            setupDescription();
+            setupFooter();
+            setupImage();
+            setupButton();
         }
 
     }
@@ -105,4 +73,51 @@ public class PromotionDetailFragment extends Fragment {
         return inflater.inflate(R.layout.promotion_detail, container, false);
     }
 
+
+    private void setupButton() {
+        android.widget.Button buttonView = (android.widget.Button)getView().findViewById(R.id.promotion_button);
+        final Button buttonData = promotion.getButtons().get(0);
+        buttonView.setText(buttonData.getTitle());
+        buttonView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(Intent.ACTION_VIEW);
+                i.setData(Uri.parse(buttonData.getTargetUrl()));
+                startActivity(i);
+            }
+        });
+    }
+
+    private void setupImage() {
+        ImageView promoDetailImage = (ImageView) getView().findViewById(R.id.promotion_detail_image);
+        Picasso.with(getActivity()).load(promotion.getImageUrl()).into(promoDetailImage);
+    }
+
+    private void setupFooter() {
+        if(promotion.getFooter() != null) {
+            int footerResId = (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) ? R.id.promotion_footer_landscape : R.id.promotion_footer;
+            TextView footer = (TextView)getActivity().findViewById(footerResId);
+            if(footer != null) {
+                footer.setVisibility(View.VISIBLE);
+                footer.setText(Html.fromHtml(promotion.getFooter()));
+                footer.setMovementMethod(LinkMovementMethod.getInstance());
+            }
+        }
+    }
+
+    private void setupDescription() {
+        ((TextView)getView().findViewById((R.id.promotion_detail))).setText(promotion.getDescription());
+    }
+
+    private void setupTitle() {
+        Activity activity = getActivity();
+        CollapsingToolbarLayout appBarLayout = (CollapsingToolbarLayout) activity.findViewById(R.id.toolbar_layout);
+        Toolbar toolbar = (Toolbar) activity.findViewById(R.id.toolbar);
+        if (appBarLayout != null) {
+            appBarLayout.setTitle(promotion.getTitle());
+        } else if(toolbar != null) { // if in split pane mode, the tool bar will be prsent
+            // in the appBarLayouts absense.
+            toolbar.setTitle(promotion.getTitle());
+        }
+    }
 }

@@ -62,18 +62,9 @@ public class PromotionListActivity extends AppCompatActivity {
             }
         });
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        toolbar.setTitle(getTitle());
+        setupToolbarWithDefaultTitle();
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent =  new Intent(PromotionListActivity.this, FetchPromosIntentService.class);
-                startService(intent);
-            }
-        });
+        setupRefreshFab();
 
         if (findViewById(R.id.promotion_detail_container) != null) {
             // The detail container view will be present only in the
@@ -86,12 +77,28 @@ public class PromotionListActivity extends AppCompatActivity {
         setupRecyclerView();
     }
 
-
     @Override
     protected void onDestroy() {
         super.onDestroy();
         realm.removeAllChangeListeners();
         realm.close();
+    }
+
+    private void setupRefreshFab() {
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent =  new Intent(PromotionListActivity.this, FetchPromosIntentService.class);
+                startService(intent);
+            }
+        });
+    }
+
+    private void setupToolbarWithDefaultTitle() {
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        toolbar.setTitle(getTitle());
     }
 
     private void setupRecyclerView() {
