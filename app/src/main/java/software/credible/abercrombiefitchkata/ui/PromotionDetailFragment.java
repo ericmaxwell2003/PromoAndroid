@@ -7,6 +7,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.Toolbar;
 import android.text.Html;
 import android.text.method.LinkMovementMethod;
 import android.view.LayoutInflater;
@@ -52,8 +53,12 @@ public class PromotionDetailFragment extends Fragment {
 
             Activity activity = this.getActivity();
             CollapsingToolbarLayout appBarLayout = (CollapsingToolbarLayout) activity.findViewById(R.id.toolbar_layout);
+            Toolbar toolbar = (Toolbar) activity.findViewById(R.id.toolbar);
             if (appBarLayout != null) {
                 appBarLayout.setTitle(promotion.getTitle());
+            } else if(toolbar != null) { // if in split pane mode, the tool bar will be prsent
+                                         // in the appBarLayouts absense.
+                toolbar.setTitle(promotion.getTitle());
             }
 
             ((TextView)getView().findViewById((R.id.promotion_detail))).setText(promotion.getDescription());
