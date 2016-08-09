@@ -25,6 +25,12 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
+/**
+ * A simple divider line decorator utility for use in our recycler view.
+ * It handles horizontal or vertical separators.
+ *
+ * Source: https://gist.github.com/alexfu/0f464fc3742f134ccd1e
+ */
 public class DividerItemDecoration extends RecyclerView.ItemDecoration {
 
     private static final int[] ATTRS = new int[]{
