@@ -93,6 +93,18 @@ public class PromotionListActivity extends AppCompatActivity {
                 startService(intent);
             }
         });
+        fab.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                realm.executeTransactionAsync(new Realm.Transaction() {
+                    @Override
+                    public void execute(Realm realm) {
+                        realm.deleteAll();
+                    }
+                });
+                return true;
+            }
+        });
     }
 
     private void setupToolbarWithDefaultTitle() {
