@@ -6,7 +6,9 @@ android {
     buildToolsVersion "27.0.2"
 
     defaultConfig {
-        buildConfigField "String", "ANF_BASE_URL", '"https://www.abercrombie.com/anf/nativeapp/Feeds"'
+        // Original URL no longer available, so hosting the hard coded JSON at emaxwell.info.
+        //buildConfigField "String", "ANF_BASE_URL", '"https://www.abercrombie.com/anf/nativeapp/Feeds"'
+        buildConfigField "String", "ANF_BASE_URL", '"http://emaxwell.info/s"'
         applicationId "software.credible.abercrombiefitchkata"
         minSdkVersion 23
         targetSdkVersion 27
@@ -19,7 +21,9 @@ android {
             testCoverageEnabled = true
         }
         release {
-            buildConfigField "String", "ANF_BASE_URL", '"https://www.abercrombie.com/anf/nativeapp/Feeds"'
+            // Original URL no longer available, so hosting the hard coded JSON at emaxwell.info.
+            //buildConfigField "String", "ANF_BASE_URL", '"https://www.abercrombie.com/anf/nativeapp/Feeds"'
+            buildConfigField "String", "ANF_BASE_URL", '"http://emaxwell.info/s"'
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
