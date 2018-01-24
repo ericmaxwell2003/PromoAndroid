@@ -7,7 +7,7 @@ and orientations.
 
 Tests aside, this app should work fairly well on different physical devices and orientations.
 
-Once you have your emulator up and running, you should be able to run the following:
+**Once you have your emulator up and running**, you should be able to run the following:
 
 ```
 ./gradlew clean test connectedAndroidTest build
