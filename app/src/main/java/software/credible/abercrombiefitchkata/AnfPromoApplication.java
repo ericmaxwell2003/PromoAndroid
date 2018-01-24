@@ -12,13 +12,14 @@ public class AnfPromoApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        setDefaultRealmConfig();
+        initRealmWithDefaultConfig();
         schedulePromoFetch();
     }
 
-    private void setDefaultRealmConfig() {
+    private void initRealmWithDefaultConfig() {
+        Realm.init(this);
         Realm.setDefaultConfiguration(
-                new RealmConfiguration.Builder(this)
+                new RealmConfiguration.Builder()
                         .deleteRealmIfMigrationNeeded()
                         .build());
     }

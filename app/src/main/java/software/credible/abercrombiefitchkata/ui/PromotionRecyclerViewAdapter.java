@@ -24,7 +24,7 @@ public class PromotionRecyclerViewAdapter extends RealmRecyclerViewAdapter<Promo
     private final PromotionListActivity mPromoListActivity;
 
     public PromotionRecyclerViewAdapter(@NonNull PromotionListActivity promoListActivity, @Nullable OrderedRealmCollection<Promotion> promotions) {
-        super(promoListActivity, promotions, true);
+        super(promotions, true, true);
         this.mPromoListActivity = promoListActivity;
     }
 
