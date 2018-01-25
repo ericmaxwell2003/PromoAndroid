@@ -49,7 +49,7 @@ android {
     }
 
     lintOptions {
-        disable 'InvalidPackage','InconsistentLayout'
+        disable 'InvalidPackage','InconsistentLayout','GoogleAppIndexingWarning'
     }
 
     packagingOptions {

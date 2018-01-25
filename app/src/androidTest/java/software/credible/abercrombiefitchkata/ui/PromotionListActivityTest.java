@@ -125,19 +125,18 @@ public class PromotionListActivityTest {
     private void goToDetailForItem(int itemIdx) {
         ViewInteraction recyclerView = onView(
                 allOf(withId(R.id.promotion_list),
+                        withParent(withId(R.id.frameLayout)),
                         isDisplayed()));
         recyclerView.perform(actionOnItemAtPosition(itemIdx, click()));
     }
 
     private void goBackToListView() {
-        if(!mActivityTestRule.getActivity().isTwoPane()) {
-            ViewInteraction imageButton2 = onView(
-                    allOf(withContentDescription("Navigate up"),
-                            withParent(allOf(withId(R.id.detail_toolbar),
-                                    withParent(withId(R.id.toolbar_layout)))),
-                            isDisplayed()));
-            imageButton2.perform(click());
-        }
+        ViewInteraction imageButton2 = onView(
+                allOf(withContentDescription("Navigate up"),
+                        withParent(allOf(withId(R.id.detail_toolbar),
+                                withParent(withId(R.id.toolbar_layout)))),
+                        isDisplayed()));
+        imageButton2.perform(click());
     }
 
     private void assertRefreshButtonShown() {

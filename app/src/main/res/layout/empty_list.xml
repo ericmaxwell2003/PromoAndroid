@@ -6,16 +6,9 @@
               android:layout_width="match_parent"
               android:layout_height="match_parent">
 
-        <ImageView
-            android:layout_gravity="top|center_horizontal"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:padding="@dimen/fab_margin"
-            android:contentDescription="@string/no_data_messenger"
-            android:src="@mipmap/nodataimg"
-            />
         <TextView
             android:id="@+id/no_data_message"
+            android:drawableTop="@mipmap/nodataimg"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:gravity="center_horizontal"
