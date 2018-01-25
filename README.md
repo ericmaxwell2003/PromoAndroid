@@ -1,7 +1,8 @@
 **Run Unit Tests and Build APK File**
 
-Create and startup an emulator for a Pixel 2 w/ API Level 26.  **(This must happen before running connectedAndroidTests).**
-Please run the tests with the emulator in Portrait mode.  I have not written tests that account for landscape mode and therefore some views may be scrolled off screen and fail the test.  In a production app, I would spend a lot more time cross testing across various device sizes and orientations.
+Create and startup an emulator for a **Pixel 2 w/ API Level 26.** **(This must happen before running connectedAndroidTests).**
+
+Please run the tests with the pixel2 emulator in Portrait mode.  I have not written tests that account for landscape mode and therefore some views may be scrolled off screen and fail the test.  In a production app, I would spend a lot more time cross testing across various device sizes and orientations.
 
 Tests aside, this app should work fairly well on different physical devices and orientations.
 
