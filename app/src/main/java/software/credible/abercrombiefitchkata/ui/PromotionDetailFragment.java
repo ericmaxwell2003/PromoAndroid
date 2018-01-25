@@ -2,9 +2,9 @@ package software.credible.abercrombiefitchkata.ui;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.content.res.Configuration;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.Toolbar;
@@ -68,15 +68,15 @@ public class PromotionDetailFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         return inflater.inflate(R.layout.promotion_detail, container, false);
     }
 
 
     private void setupButton() {
-        android.widget.Button buttonView = (android.widget.Button)getView().findViewById(R.id.promotion_button);
         final Button buttonData = promotion.getButtons().get(0);
+        android.widget.Button buttonView = getActivity().findViewById(R.id.promotion_button);
         buttonView.setText(buttonData.getTitle());
         buttonView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -89,14 +89,13 @@ public class PromotionDetailFragment extends Fragment {
     }
 
     private void setupImage() {
-        ImageView promoDetailImage = (ImageView) getView().findViewById(R.id.promotion_detail_image);
+        ImageView promoDetailImage = getView().findViewById(R.id.promotion_detail_image);
         Picasso.with(getActivity()).load(promotion.getImageUrl()).into(promoDetailImage);
     }
 
     private void setupFooter() {
         if(promotion.getFooter() != null) {
-            int footerResId = (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) ? R.id.promotion_footer_landscape : R.id.promotion_footer;
-            TextView footer = (TextView)getActivity().findViewById(footerResId);
+            TextView footer = getActivity().findViewById(R.id.promotion_footer);
             if(footer != null) {
                 footer.setVisibility(View.VISIBLE);
                 footer.setText(Html.fromHtml(promotion.getFooter()));
@@ -111,11 +110,11 @@ public class PromotionDetailFragment extends Fragment {
 
     private void setupTitle() {
         Activity activity = getActivity();
-        CollapsingToolbarLayout appBarLayout = (CollapsingToolbarLayout) activity.findViewById(R.id.toolbar_layout);
-        Toolbar toolbar = (Toolbar) activity.findViewById(R.id.toolbar);
+        CollapsingToolbarLayout appBarLayout = activity.findViewById(R.id.toolbar_layout);
+        Toolbar toolbar = activity.findViewById(R.id.toolbar);
         if (appBarLayout != null) {
             appBarLayout.setTitle(promotion.getTitle());
-        } else if(toolbar != null) { // if in split pane mode, the tool bar will be prsent
+        } else if(toolbar != null) { // if in split pane mode, the tool bar will be present
             // in the appBarLayouts absense.
             toolbar.setTitle(promotion.getTitle());
         }

@@ -115,7 +115,6 @@ public class PromotionListActivityTest {
         if(footerText == null) {
             onView(withId(R.id.promotion_footer)).check(matches(not(isDisplayed())));
         } else {
-            // TODO : Check Orientation
             ViewInteraction textView4 = onView(
                     allOf(withId(R.id.promotion_footer), withText(footerText), isDisplayed()));
             textView4.check(matches(withText(footerText)));
@@ -126,18 +125,19 @@ public class PromotionListActivityTest {
     private void goToDetailForItem(int itemIdx) {
         ViewInteraction recyclerView = onView(
                 allOf(withId(R.id.promotion_list),
-                        withParent(withId(R.id.frameLayout)),
                         isDisplayed()));
         recyclerView.perform(actionOnItemAtPosition(itemIdx, click()));
     }
 
     private void goBackToListView() {
-        ViewInteraction imageButton2 = onView(
-                allOf(withContentDescription("Navigate up"),
-                        withParent(allOf(withId(R.id.detail_toolbar),
-                                withParent(withId(R.id.toolbar_layout)))),
-                        isDisplayed()));
-        imageButton2.perform(click());
+        if(!mActivityTestRule.getActivity().isTwoPane()) {
+            ViewInteraction imageButton2 = onView(
+                    allOf(withContentDescription("Navigate up"),
+                            withParent(allOf(withId(R.id.detail_toolbar),
+                                    withParent(withId(R.id.toolbar_layout)))),
+                            isDisplayed()));
+            imageButton2.perform(click());
+        }
     }
 
     private void assertRefreshButtonShown() {

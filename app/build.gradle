@@ -10,7 +10,7 @@ android {
         //buildConfigField "String", "ANF_BASE_URL", '"https://www.abercrombie.com/anf/nativeapp/Feeds"'
         buildConfigField "String", "ANF_BASE_URL", '"http://emaxwell.info/s"'
         applicationId "software.credible.abercrombiefitchkata"
-        minSdkVersion 23
+        minSdkVersion 21
         targetSdkVersion 27
         versionCode 1
         versionName "1.0"
@@ -49,7 +49,7 @@ android {
     }
 
     lintOptions {
-        disable 'InvalidPackage'
+        disable 'InvalidPackage','InconsistentLayout'
     }
 
     packagingOptions {
