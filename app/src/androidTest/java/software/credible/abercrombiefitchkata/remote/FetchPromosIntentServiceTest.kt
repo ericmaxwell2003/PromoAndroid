@@ -6,7 +6,7 @@ import android.support.test.runner.AndroidJUnit4
 import io.reactivex.Single
 import io.realm.Realm
 import io.realm.RealmList
-import junit.framework.Assert.assertEquals
+import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
