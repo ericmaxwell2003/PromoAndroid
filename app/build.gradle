@@ -1,6 +1,7 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-kapt'
+apply plugin: 'kotlin-android-extensions'
 apply plugin: 'realm-android'
 
 android {
@@ -57,7 +58,11 @@ android {
     }
 
     lintOptions {
-        disable 'InvalidPackage','InconsistentLayout','GoogleAppIndexingWarning'
+        disable 'InvalidPackage',
+                'InconsistentLayout', // layout-w900dp/promotions_list.xml trips this but is expected.
+                'GoogleAppIndexingWarning',
+                'UnusedResources' // Kotlin doesn't catch used layouts from kotlin files as far as I can tell.
+                                  // https://youtrack.jetbrains.com/issue/KT-7729.
     }
 
     packagingOptions {
