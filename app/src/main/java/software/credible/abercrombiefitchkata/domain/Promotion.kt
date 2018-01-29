@@ -36,7 +36,7 @@ open class Promotion : RealmObject() {
             promotion.title = dto.title
             promotion.imageUrl = dto.imageUrl
             if (dto.buttons != null) {
-                for (buttonDto in dto.buttons ?: emptyList()) {
+                for (buttonDto in dto.buttons ?: mutableListOf()) {
                     promotion.addButton(Button.fromDto(buttonDto))
                 }
             }

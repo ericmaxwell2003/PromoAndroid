@@ -1,6 +1,7 @@
 package software.credible.abercrombiefitchkata.ui;
 
 
+import android.support.annotation.NonNull;
 import android.support.test.espresso.ViewInteraction;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
@@ -190,7 +191,7 @@ public class PromotionListActivityTest {
         try(Realm r = Realm.getDefaultInstance()) {
             r.executeTransaction(new Realm.Transaction() {
                 @Override
-                public void execute(Realm realm) {
+                public void execute(@NonNull Realm realm) {
                     PromotionsResponseDto promotionsResponseDto =
                             PromotionsApiFactory.gson().fromJson(TEST_ANF_FULL_RESPONSE, PromotionsResponseDto.class);
                     for(PromotionDto promotionDto : promotionsResponseDto.getPromotions()) {
