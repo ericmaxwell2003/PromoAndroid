@@ -1,36 +1,37 @@
 package software.credible.abercrombiefitchkata.remote;
 
-import android.test.ApplicationTestCase;
+import android.support.test.filters.SmallTest;
+import android.support.test.runner.AndroidJUnit4;
 
 import com.squareup.okhttp.mockwebserver.MockResponse;
 import com.squareup.okhttp.mockwebserver.MockWebServer;
 
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
 import java.io.IOException;
 
-import retrofit.RetrofitError;
-import software.credible.abercrombiefitchkata.AnfPromoApplication;
+import retrofit2.HttpException;
 import software.credible.abercrombiefitchkata.dto.ButtonDto;
 import software.credible.abercrombiefitchkata.dto.PromotionDto;
 import software.credible.abercrombiefitchkata.dto.PromotionsResponseDto;
-import static software.credible.abercrombiefitchkata.TestConstants.*;
 
-public class PromotionsApiTest extends ApplicationTestCase<AnfPromoApplication> {
+import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.assertTrue;
+import static junit.framework.Assert.fail;
+import static software.credible.abercrombiefitchkata.TestConstants.TEST_ANF_FULL_RESPONSE;
+
+@RunWith(AndroidJUnit4.class)
+@SmallTest
+public class PromotionsApiTest {
 
     private PromotionsApi promotionsApi;
     private MockWebServer mockWebServer;
 
-    public PromotionsApiTest() {
-        super(AnfPromoApplication.class);
-    }
-
     @Before
-    @Override
     public void setUp() throws Exception {
-        super.setUp();
-        createApplication();
 
         mockWebServer = new MockWebServer();
         mockWebServer.start();
@@ -38,22 +39,22 @@ public class PromotionsApiTest extends ApplicationTestCase<AnfPromoApplication> 
     }
 
     @After
-    @Override
     public void tearDown() throws Exception {
         shutdownMockWebServer();
-        super.tearDown();
     }
 
+    @Test
     public void testParsesAnfFullResponseParsesWithoutError() throws Exception {
 
         mockWebServer.enqueue(new MockResponse()
                 .setResponseCode(200)
                 .setBody(TEST_ANF_FULL_RESPONSE));
 
-        PromotionsResponseDto promotionsResponse = promotionsApi.getPromotions();
+        PromotionsResponseDto promotionsResponse = promotionsApi.getPromotions().blockingGet();
         assertEquals(2, promotionsResponse.getPromotions().size());
     }
 
+    @Test
     public void testPromotionContentsParse() throws Exception {
 
         mockWebServer.enqueue(new MockResponse()
@@ -73,7 +74,7 @@ public class PromotionsApiTest extends ApplicationTestCase<AnfPromoApplication> 
                         "  ]\n" +
                         "}"));
 
-        PromotionsResponseDto promotionsResponse = promotionsApi.getPromotions();
+        PromotionsResponseDto promotionsResponse = promotionsApi.getPromotions().blockingGet();
         assertEquals(1, promotionsResponse.getPromotions().size());
         PromotionDto promotion = promotionsResponse.getPromotions().get(0);
 
@@ -88,6 +89,7 @@ public class PromotionsApiTest extends ApplicationTestCase<AnfPromoApplication> 
         assertEquals("footer", promotion.getFooter());
     }
 
+    @Test
     public void testPromotionButtonObjectParsesToButtonList() throws Exception {
 
         mockWebServer.enqueue(new MockResponse()
@@ -103,7 +105,7 @@ public class PromotionsApiTest extends ApplicationTestCase<AnfPromoApplication> 
                         "  ]\n" +
                         "}"));
 
-        PromotionDto promotion = promotionsApi.getPromotions().getPromotions().get(0);
+        PromotionDto promotion = promotionsApi.getPromotions().blockingGet().getPromotions().get(0);
 
         assertEquals(1, promotion.getButtons().size());
         ButtonDto button = promotion.getButtons().get(0);
@@ -111,6 +113,7 @@ public class PromotionsApiTest extends ApplicationTestCase<AnfPromoApplication> 
         assertEquals("title", button.getTitle());
     }
 
+    @Test
     public void testPromotionButtonListParsesToButtonList() throws Exception {
 
         mockWebServer.enqueue(new MockResponse()
@@ -126,7 +129,7 @@ public class PromotionsApiTest extends ApplicationTestCase<AnfPromoApplication> 
                         "  ]\n" +
                         "}"));
 
-        PromotionDto promotion = promotionsApi.getPromotions().getPromotions().get(0);
+        PromotionDto promotion = promotionsApi.getPromotions().blockingGet().getPromotions().get(0);
 
         assertEquals(1, promotion.getButtons().size());
         ButtonDto button = promotion.getButtons().get(0);
@@ -134,14 +137,15 @@ public class PromotionsApiTest extends ApplicationTestCase<AnfPromoApplication> 
         assertEquals("title", button.getTitle());
     }
 
+    @Test
     public void testNon200ReponseThrowsException() throws Exception {
 
         mockWebServer.enqueue(new MockResponse().setResponseCode(404));
 
         boolean threwError = false;
         try {
-            promotionsApi.getPromotions();
-        } catch (RetrofitError e) {
+            promotionsApi.getPromotions().blockingGet();
+        } catch (HttpException e) {
             threwError = true;
         }
         assertTrue(threwError);

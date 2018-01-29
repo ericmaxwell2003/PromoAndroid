@@ -1,6 +1,7 @@
 package software.credible.abercrombiefitchkata.remote;
 
 import android.content.Intent;
+import android.support.test.filters.SmallTest;
 import android.support.test.runner.AndroidJUnit4;
 import android.test.ApplicationTestCase;
 
@@ -10,6 +11,7 @@ import org.junit.runner.RunWith;
 
 import java.util.ArrayList;
 
+import io.reactivex.Single;
 import io.realm.Realm;
 import io.realm.RealmList;
 import software.credible.abercrombiefitchkata.AnfPromoApplication;
@@ -19,26 +21,25 @@ import software.credible.abercrombiefitchkata.dto.ButtonDto;
 import software.credible.abercrombiefitchkata.dto.PromotionDto;
 import software.credible.abercrombiefitchkata.dto.PromotionsResponseDto;
 
-public class FetchPromosIntentServiceTest extends ApplicationTestCase<AnfPromoApplication> {
+import static junit.framework.Assert.assertEquals;
+
+
+@RunWith(AndroidJUnit4.class)
+@SmallTest
+public class FetchPromosIntentServiceTest {
 
     private FetchPromosIntentService intentService;
-
     private FakePromotionsApi fakePromotionsApi;
 
-    public FetchPromosIntentServiceTest() {
-        super(AnfPromoApplication.class);
-    }
-
     @Before
-    @Override
     public void setUp() throws Exception {
-        super.setUp();
-        createApplication();
         fakePromotionsApi = new FakePromotionsApi();
         intentService = new FetchPromosIntentService();
         intentService.setPromotionsApi(fakePromotionsApi);
     }
 
+
+    @Test
     public void testAnExceptionIsThrownDuringFetchThenNoChangesHappenToData() {
         setupDatabaseWithNumberOfPromotions(2);
         fakePromotionsApi.onGetPromotionsThrowException(new RuntimeException("Pretending an error occurred"));
@@ -48,6 +49,7 @@ public class FetchPromosIntentServiceTest extends ApplicationTestCase<AnfPromoAp
         assertPromotionCountInDatabase(2);
     }
 
+    @Test
     public void testWhenRemoteDataIsFoundTheyAreReplacedInTheDatabase() {
         setupDatabaseWithNumberOfPromotions(2);
         fakePromotionsApi.onGetPromotionsReturn(promotionReponseWithPromoCount(3));
@@ -57,6 +59,7 @@ public class FetchPromosIntentServiceTest extends ApplicationTestCase<AnfPromoAp
         assertPromotionCountInDatabase(3);
     }
 
+    @Test
     public void testTheFetchReturnsEmptyDataThenTheResultIsAnEmptyDatabase() {
         setupDatabaseWithNumberOfPromotions(3);
         fakePromotionsApi.onGetPromotionsReturn(promotionReponseWithPromoCount(0));
@@ -135,13 +138,12 @@ public class FetchPromosIntentServiceTest extends ApplicationTestCase<AnfPromoAp
             this.exception = exception;
         }
 
-
         @Override
-        public PromotionsResponseDto getPromotions() {
+        public Single<PromotionsResponseDto> getPromotions() {
             if(this.exception != null) {
                 throw exception;
             } else {
-                return promotionsResponseDto;
+                return Single.just(promotionsResponseDto);
             }
         }
 

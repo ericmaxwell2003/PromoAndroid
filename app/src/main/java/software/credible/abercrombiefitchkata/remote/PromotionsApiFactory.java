@@ -3,14 +3,13 @@ package software.credible.abercrombiefitchkata.remote;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
-import com.squareup.okhttp.OkHttpClient;
 
 import java.lang.reflect.Type;
 import java.util.List;
 
-import retrofit.RestAdapter;
-import retrofit.client.OkClient;
-import retrofit.converter.GsonConverter;
+import retrofit2.Retrofit;
+import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
+import retrofit2.converter.gson.GsonConverterFactory;
 import software.credible.abercrombiefitchkata.BuildConfig;
 import software.credible.abercrombiefitchkata.dto.ButtonDto;
 
@@ -24,11 +23,10 @@ public class PromotionsApiFactory {
 
     public static PromotionsApi createService(String url) {
 
-        RestAdapter adapter = new RestAdapter.Builder()
-                .setEndpoint(url)
-                .setLogLevel(RestAdapter.LogLevel.FULL)
-                .setClient(new OkClient(new OkHttpClient()))
-                .setConverter(new GsonConverter(gson()))
+        Retrofit adapter = new Retrofit.Builder()
+                .baseUrl(url)
+                .addConverterFactory(GsonConverterFactory.create(gson()))
+                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .build();
         return adapter.create(PromotionsApi.class);
     }

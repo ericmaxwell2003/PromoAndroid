@@ -7,6 +7,7 @@ import android.support.test.runner.AndroidJUnit4;
 import android.test.suitebuilder.annotation.LargeTest;
 
 import org.hamcrest.CoreMatchers;
+import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -39,17 +40,18 @@ public class PromotionListActivityTest {
     public ActivityTestRule<PromotionListActivity> mActivityTestRule = new ActivityTestRule<>(PromotionListActivity.class);
 
 
+    @Before
+    public void setup() {
+        clearData();
+    }
+
     @Test
     public void attractiveNoDataScreenPresence() {
-        clearData();
-        waitForSeconds(1);
         assertTheNoPromosViewIsShown();
     }
 
     @Test
     public void promotionListActivityContentsTest() {
-        clearData();
-        waitForSeconds(1);
         loadTestData();
         waitForSeconds(1);
         assertThePromoListViewIsShown();
@@ -60,8 +62,6 @@ public class PromotionListActivityTest {
 
     @Test
     public void promotionListActivityFirstEntryDetailTest() {
-        clearData();
-        waitForSeconds(1);
         loadTestData();
         waitForSeconds(1);
         goToDetailForItem(0);
@@ -74,8 +74,6 @@ public class PromotionListActivityTest {
 
     @Test
     public void promotionListActivitySecondEntryDetailTest() {
-        clearData();
-        waitForSeconds(1);
         loadTestData();
         waitForSeconds(1);
         goToDetailForItem(1);

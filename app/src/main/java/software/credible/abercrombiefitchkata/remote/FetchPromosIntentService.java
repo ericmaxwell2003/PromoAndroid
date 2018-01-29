@@ -57,7 +57,7 @@ public class FetchPromosIntentService extends IntentService {
     }
 
     private List<PromotionDto> fetchPromotions() {
-        PromotionsResponseDto promotionsResponseDto = promotionsApi.getPromotions();
+        PromotionsResponseDto promotionsResponseDto = promotionsApi.getPromotions().blockingGet();
         return promotionsResponseDto.getPromotions();
     }
 
